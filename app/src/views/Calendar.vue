@@ -1,6 +1,5 @@
 <template>
   <FullCalendar
-    @dateClick="handleDateClick"
     @select="handleSelect"
     defaultView="dayGridMonth"
     :plugins="calendarPlugins"
@@ -22,13 +21,14 @@ export default {
     FullCalendar
   },
   methods: {
-    handleDateClick(info) {
-      let desc = prompt("Escreva a descrição do seu evento:");
-      console.log(info);
-      console.log(desc);
-    },
     handleSelect(info) {
-      console.log(info);
+      let title = prompt("Digite o título do seu evento.");
+      let event = {
+        title: title,
+        startDate: info.startStr,
+        endDate: info.endStr
+      };
+      this.$store.dispatch('createEvent', event);
     }
   },
   data() {
