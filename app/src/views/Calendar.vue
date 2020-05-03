@@ -4,10 +4,7 @@
     defaultView="dayGridMonth"
     :plugins="calendarPlugins"
     :selectable="true"
-    :events="[
-      { title: 'event 1', start: '2020-05-01', end: '2020-05-03' },
-      { title: 'event 2', date: '2020-05-04' }
-    ]"
+    :events="events"
   />
 </template>
 
@@ -17,10 +14,18 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 export default {
-  components: {
-    FullCalendar
+  created() {
+    this.fetchData();
+  },
+  computed: {
+    events() {
+      return this.$store.getters.getEvents;
+    },
   },
   methods: {
+    fetchData() {
+      this.$store.dispatch('getAllEvents');
+    },
     handleSelect(info) {
       let title = prompt("Digite o título do seu evento.");
       let event = {
@@ -35,6 +40,9 @@ export default {
     return {
       calendarPlugins: [dayGridPlugin, interactionPlugin]
     };
+  },
+  components: {
+    FullCalendar
   }
 };
 </script>

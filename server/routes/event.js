@@ -20,8 +20,8 @@ event.get('/', (req, res) => {
 event.post('/new', (req, res) => {
   let newEvent = new Event({
     title: req.body.title,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
+    start: req.body.startDate,
+    end: req.body.endDate
   });
   newEvent.save(err => {
     if (err) {

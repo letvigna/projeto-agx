@@ -30,6 +30,19 @@ export default new Vuex.Store({
           console.log(err);
         });
       commit('setEvent', payload);
+    },
+    getAllEvents({commit}) {
+      axios
+        .get('http://localhost:3010/event')
+        .then(res => {
+          console.log(res);
+          if(res.status === 200) {
+            commit('setEvents', res.data);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
 
