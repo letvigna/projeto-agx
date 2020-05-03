@@ -12,6 +12,7 @@
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",
     "@fullcalendar/vue": "^4.4.0",
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "node-sass": "^4.14.0",
     "sass-loader": "^8.0.2",
