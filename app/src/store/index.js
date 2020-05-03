@@ -33,6 +33,15 @@ export default new Vuex.Store({
     }
   },
 
+  getters: {
+    getEvent: state => {
+      return state.event;
+    },
+    getEvents: state => {
+      return state.events;
+    },
+  },
+
   modules: {
   }
 })
