@@ -8,6 +8,7 @@ const load = async() => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   })
+  app.use(express.json());
   app.use(routes);
   return app;
 }
