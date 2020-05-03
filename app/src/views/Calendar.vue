@@ -20,11 +20,11 @@ export default {
   computed: {
     events() {
       return this.$store.getters.getEvents;
-    },
+    }
   },
   methods: {
     fetchData() {
-      this.$store.dispatch('getAllEvents');
+      this.$store.dispatch("getAllEvents");
     },
     handleSelect(info) {
       let title = prompt("Digite o título do seu evento.");
@@ -33,7 +33,7 @@ export default {
         startDate: info.startStr,
         endDate: info.endStr
       };
-      this.$store.dispatch('createEvent', event);
+      this.$store.dispatch("createEvent", event);
     }
   },
   data() {

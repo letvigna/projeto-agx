@@ -20,11 +20,14 @@ export default new Vuex.Store({
   },
 
   actions: {
-    createEvent({commit}, payload) {
+    createEvent({commit, dispatch}, payload) {
       axios
         .post('http://localhost:3010/event/new', payload)
         .then(res => {
           console.log(res);
+          if(res.status === 201) {
+            dispatch('getAllEvents');
+          }
         })
         .catch(err => {
           console.log(err);
