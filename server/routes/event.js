@@ -1,15 +1,24 @@
-let event = require('express').Router();
+const mongoose = require('mongoose');
+const event = require('express').Router();
+const eventSchema = require('../models/eventSchema');
+const Event = mongoose.model('Event', eventSchema);
 
-// http://localhost:3010/event
 // Get all events
 event.get('/', (req, res) => {
   console.log("event GET req ");
-})
+});
 
-// http://localhost:3010/event/new
 // Create new event
 event.post('/new', (req, res) => {
-  console.log(req.body);
-})
+  let newEvent = new Event({
+    title: req.body.title,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate
+  });
+  newEvent.save(err => {
+    if (err) return handleError(err);
+  });
+  res.send("Novo evento inserido.");
+});
 
 module.exports = event;
