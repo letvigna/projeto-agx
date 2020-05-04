@@ -20,27 +20,43 @@ export default new Vuex.Store({
   },
 
   actions: {
-    createEvent({commit, dispatch}, payload) {
+    getAllEvents({ commit }) {
+      axios
+        .get('http://localhost:3010/event')
+        .then(res => {
+          if (res.status === 200) {
+            let events = res.data.map(item =>
+              Object.assign({}, item,
+                { id: item._id }
+              )
+            );
+            commit('setEvents', events);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    createEvent({ commit, dispatch }, payload) {
       axios
         .post('http://localhost:3010/event/new', payload)
         .then(res => {
-          console.log(res);
-          if(res.status === 201) {
+          if (res.status === 201) {
+            commit('setEvent', payload);
             dispatch('getAllEvents');
           }
         })
         .catch(err => {
           console.log(err);
         });
-      commit('setEvent', payload);
     },
-    getAllEvents({commit}) {
+    updateEvent({ commit, dispatch }, payload) {
       axios
-        .get('http://localhost:3010/event')
+        .put('http://localhost:3010/event/edit', payload)
         .then(res => {
-          console.log(res);
-          if(res.status === 200) {
-            commit('setEvents', res.data);
+          if (res.status === 200) {
+            commit('setEvent', payload);
+            dispatch('getAllEvents');
           }
         })
         .catch(err => {
