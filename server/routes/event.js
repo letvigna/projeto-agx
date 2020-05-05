@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const ObjectId = require('mongoose').Types.ObjectId; 
 const event = require('express').Router();
 const eventSchema = require('../models/eventSchema');
 const Event = mongoose.model('Event', eventSchema);
+const ObjectId = require('mongoose').Types.ObjectId; 
 
 // GET: Get all events - /event
 event.get('/', (req, res) => {
@@ -46,6 +46,19 @@ event.put('/edit', async(req, res) => {
     } else {
       res.status(200);
       res.send("Evento atualizado.");
+    }
+  });
+});
+
+// DELETE: delete an event - /event/delete
+event.delete('/delete', (req, res) => {
+  Event.deleteOne({ _id: new ObjectId(req.body.id)}, (err) => {
+    if (err) {
+      res.status(500);
+      res.send("Erro ao apagar o evento.");
+    } else {
+      res.status(200);
+      res.send("Evento removido.");
     }
   });
 });
