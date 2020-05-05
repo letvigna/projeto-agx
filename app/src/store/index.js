@@ -7,7 +7,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     event: {},
-    events: []
+    events: [],
+    isDeletable: false
   },
 
   mutations: {
@@ -16,10 +17,16 @@ export default new Vuex.Store({
     },
     setEvents(state, payload) {
       state.events = payload;
+    },
+    setIsDeletable(state, payload) {
+      state.isDeletable = payload;
     }
   },
 
   actions: {
+    alternateDeletable({ commit }) {
+      commit('setIsDeletable', !this.getters.getIsDeletable);
+    },
     getAllEvents({ commit }) {
       axios
         .get('http://localhost:3010/event')
@@ -62,6 +69,18 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err);
         });
+    },
+    deleteEvent({ dispatch }, payload) {
+      axios
+        .delete('http://localhost:3010/event/delete', { data: payload })
+        .then(res => {
+          if (res.status === 200) {
+            dispatch('getAllEvents');
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
 
@@ -72,6 +91,9 @@ export default new Vuex.Store({
     getEvents: state => {
       return state.events;
     },
+    getIsDeletable: state => {
+      return state.isDeletable;
+    }
   },
 
   modules: {
