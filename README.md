@@ -9,7 +9,7 @@ npm install
 node app.js
 ```
 
-### 2. Rodar front end:
+### 2. Rodar o front end:
 Assim como o back end, execute os comandos a seguir a partir do diretório root do projeto.
 ```
 cd app
@@ -18,7 +18,6 @@ npm run serve
 ```
 Verifique-se de que o back end continua rodando em fundo para que o projeto funcione.
 
----
 ### *Como usar*
 Após executar tanto o back end como o front end, as operações CRUD estão disponíveis para utilizar com o calendário.
 
