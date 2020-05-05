@@ -1,12 +1,17 @@
 <template>
-  <FullCalendar
-    @select="handleSelect"
-    @eventClick="handleEventClick"
-    defaultView="dayGridMonth"
-    :plugins="calendarPlugins"
-    :selectable="true"
-    :events="events"
-  />
+  <div class="div">
+    {{ desc }}
+    <FullCalendar
+      @select="handleSelect"
+      @eventClick="handleEventClick"
+      :header="headers"
+      :plugins="calendarPlugins"
+      :events="events"
+      :selectable="true"
+      :customButtons="customButtons"
+      defaultView="dayGridMonth"
+    />
+  </div>
 </template>
 
 <script>
@@ -21,34 +26,77 @@ export default {
   computed: {
     events() {
       return this.$store.getters.getEvents;
+    },
+    isDeletable() {
+      return this.$store.getters.getIsDeletable;
+    },
+    desc() {
+      let modo = this.isDeletable ? 'REMOÇÃO' : 'EDIÇÃO';
+      let op = this.isDeletable ? 'remover' : 'editar';
+      return `MODO ${modo} - Clique no evento que deseja ${op}.`;
     }
   },
   methods: {
     fetchData() {
       this.$store.dispatch("getAllEvents");
     },
-    handleSelect(info) {
+    handleSelect(event) {
       let title = prompt("Digite o título do seu evento.");
-      let event = {
-        title: title,
-        start: info.startStr,
-        end: info.endStr
-      };
-      this.$store.dispatch("createEvent", event);
+      if(title) {
+        let newEvent = {
+          title: title,
+          start: event.startStr,
+          end: event.endStr
+        };
+        this.$store.dispatch("createEvent", newEvent);
+      }
     },
-    handleEventClick(info) {
-      let title = prompt("Digite um novo título para o seu evento.");
-      let event = {
-        id: info.event.id,
-        title: title
-      };
-      this.$store.dispatch("updateEvent", event);
+    handleEventClick(event) {
+      // Delete
+      if(this.isDeletable) {
+        if(confirm(`Tem certeza que deseja apagar o evento "${event.event.title}"?`)) {
+          this.$store.dispatch("deleteEvent", { id: event.event.id });
+        }
+      }
+      // Update
+      else {
+        let title = prompt("Digite um novo título para o seu evento.");
+        if(title) {
+          let updatedEvent = {
+            id: event.event.id,
+            title: title
+          };
+          this.$store.dispatch("updateEvent", updatedEvent);
+        }
+      }
     }
   },
   data() {
     return {
-      calendarPlugins: [dayGridPlugin, interactionPlugin]
-    };
+      calendarPlugins: [dayGridPlugin, interactionPlugin],
+      headers: { 
+        //left: this.isDeletable ? 'editEvent' : 'deleteEvent',
+        left: 'deleteEvent, editEvent',
+        center: 'title',
+        right: 'today prev,next'
+      },
+      customButtons: {
+        deleteEvent: {
+          text: 'Apagar eventos',
+          click: () => {
+            alert("Selecionar eventos que deseja apagar.");
+            this.$store.dispatch("updateDeletable", true);
+          }
+        },
+        editEvent: {
+          text: 'Editar eventos',
+          click: () => {
+            alert("Selecionar eventos que deseja editar.");
+            this.$store.dispatch("updateDeletable", false);
+          }
+        }
+      }
+    }
   },
   components: {
     FullCalendar
@@ -59,4 +107,9 @@ export default {
 <style lang='scss'>
 @import "~@fullcalendar/core/main.css";
 @import "~@fullcalendar/daygrid/main.css";
+
+.div {
+  padding: 20vh;
+  background-color: #fcf2ff;
+}
 </style>

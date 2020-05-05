@@ -24,8 +24,8 @@ export default new Vuex.Store({
   },
 
   actions: {
-    alternateDeletable({ commit }) {
-      commit('setIsDeletable', !this.getters.getIsDeletable);
+    updateDeletable({ commit }, payload) {
+      commit('setIsDeletable', payload);
     },
     getAllEvents({ commit }) {
       axios
