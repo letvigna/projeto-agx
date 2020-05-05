@@ -110,6 +110,5 @@ export default {
 
 .div {
   padding: 20vh;
-  background-color: #fcf2ff;
 }
 </style>
