@@ -17,6 +17,7 @@
 <script>
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 export default {
@@ -73,12 +74,12 @@ export default {
   },
   data() {
     return {
-      calendarPlugins: [dayGridPlugin, interactionPlugin],
+      calendarPlugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       headers: { 
         //left: this.isDeletable ? 'editEvent' : 'deleteEvent',
         left: 'deleteEvent, editEvent',
         center: 'title',
-        right: 'today prev,next'
+        right: 'today prev,next dayGridMonth,timeGridWeek,timeGridDay'
       },
       customButtons: {
         deleteEvent: {
@@ -107,6 +108,7 @@ export default {
 <style lang='scss'>
 @import "~@fullcalendar/core/main.css";
 @import "~@fullcalendar/daygrid/main.css";
+@import "~@fullcalendar/timegrid/main.css";
 
 .div {
   padding: 20vh;
