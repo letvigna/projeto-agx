@@ -7,8 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     event: {},
-    events: [],
-    isDeletable: false
+    events: []
   },
 
   mutations: {
@@ -17,9 +16,6 @@ export default new Vuex.Store({
     },
     setEvents(state, payload) {
       state.events = payload;
-    },
-    setIsDeletable(state, payload) {
-      state.isDeletable = payload;
     }
   },
 
@@ -90,9 +86,6 @@ export default new Vuex.Store({
     },
     getEvents: state => {
       return state.events;
-    },
-    getIsDeletable: state => {
-      return state.isDeletable;
     }
   },
 

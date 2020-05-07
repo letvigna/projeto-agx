@@ -1,6 +1,9 @@
 <template>
   <div class="div">
-    {{ desc }}
+    <v-switch
+      v-model="isEditable"
+      :label="`Modo edição: ${isEditable ? 'Ativado' : 'Desativado'}`"
+    ></v-switch>
     <FullCalendar
       @select="handleSelect"
       @eventClick="handleEventClick"
@@ -8,8 +11,9 @@
       :plugins="calendarPlugins"
       :events="events"
       :selectable="true"
-      :customButtons="customButtons"
       defaultView="dayGridMonth"
+      eventColor="#d7f2fa"
+      eventTextColor="black"
     />
   </div>
 </template>
@@ -27,14 +31,6 @@ export default {
   computed: {
     events() {
       return this.$store.getters.getEvents;
-    },
-    isDeletable() {
-      return this.$store.getters.getIsDeletable;
-    },
-    desc() {
-      let modo = this.isDeletable ? 'REMOÇÃO' : 'EDIÇÃO';
-      let op = this.isDeletable ? 'remover' : 'editar';
-      return `MODO ${modo} - Clique no evento que deseja ${op}.`;
     }
   },
   methods: {
@@ -53,14 +49,8 @@ export default {
       }
     },
     handleEventClick(event) {
-      // Delete
-      if(this.isDeletable) {
-        if(confirm(`Tem certeza que deseja apagar o evento "${event.event.title}"?`)) {
-          this.$store.dispatch("deleteEvent", { id: event.event.id });
-        }
-      }
       // Update
-      else {
+      if(this.isEditable) {
         let title = prompt("Digite um novo título para o seu evento.");
         if(title) {
           let updatedEvent = {
@@ -69,33 +59,25 @@ export default {
           };
           this.$store.dispatch("updateEvent", updatedEvent);
         }
+        
+      }
+      // Delete
+      else {
+        if(confirm(`Tem certeza que deseja apagar o evento "${event.event.title}"?`)) {
+          this.$store.dispatch("deleteEvent", { id: event.event.id });
+        }
       }
     }
   },
   data() {
     return {
+      isEditable: true,
       calendarPlugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       headers: { 
         //left: this.isDeletable ? 'editEvent' : 'deleteEvent',
-        left: 'deleteEvent, editEvent',
+        left: 'today prev,next',
         center: 'title',
-        right: 'today prev,next dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      customButtons: {
-        deleteEvent: {
-          text: 'Apagar eventos',
-          click: () => {
-            alert("Selecionar eventos que deseja apagar.");
-            this.$store.dispatch("updateDeletable", true);
-          }
-        },
-        editEvent: {
-          text: 'Editar eventos',
-          click: () => {
-            alert("Selecionar eventos que deseja editar.");
-            this.$store.dispatch("updateDeletable", false);
-          }
-        }
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
       }
     }
   },
@@ -111,6 +93,6 @@ export default {
 @import "~@fullcalendar/timegrid/main.css";
 
 .div {
-  padding: 20vh;
+  padding: 0vh 10vh 5vh 10vh;
 }
 </style>
