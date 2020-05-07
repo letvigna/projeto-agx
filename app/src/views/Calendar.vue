@@ -38,7 +38,7 @@ export default {
       this.$store.dispatch("getAllEvents");
     },
     handleSelect(event) {
-      let title = prompt("Digite o título do seu evento.");
+      let title = prompt("Digite o título para o seu evento novo.");
       if(title) {
         let newEvent = {
           title: title,
@@ -51,7 +51,7 @@ export default {
     handleEventClick(event) {
       // Update
       if(this.isEditable) {
-        let title = prompt("Digite um novo título para o seu evento.");
+        let title = prompt(`Digite um novo título para o seu evento "${event.event.title}".`);
         if(title) {
           let updatedEvent = {
             id: event.event.id,
@@ -73,8 +73,7 @@ export default {
     return {
       isEditable: true,
       calendarPlugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      headers: { 
-        //left: this.isDeletable ? 'editEvent' : 'deleteEvent',
+      headers: {
         left: 'today prev,next',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
