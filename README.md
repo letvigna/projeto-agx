@@ -22,10 +22,7 @@ Verifique-se de que o back end continua rodando em fundo para que o projeto func
 Após executar tanto o back end como o front end, as operações CRUD estão disponíveis para utilizar com o calendário.
 
 * **Criar um evento:**
-Para criar um evento, basta clicar no dia desejado e inserir o título através do input. O calendário será atualizado automaticamente com o evento novo.
+Para criar um evento, basta clicar no dia desejado e inserir o título através do input.
 
-* **Atualizar um evento:**
-Para atualizar um evento, verifique-se de que o calendário está em *"modo edição"* no canto superior esquerdo. Se estiver em *"modo remoção"*, clique no botão **"Editar eventos"** para ativar este modo. Com ele ativado, basta clicar no evento desejado e inserir o título novo. O calendário será atualizado automaticamente com o título atualizado.
-
-* **Apagar um evento:**
-Para apagar um evento, verifique-se de que o calendário está em *"modo remoção"* no canto superior esquerdo. Se estiver em *"modo edição"*, clique no botão **"Apagar eventos"** para ativar este modo. Com ele ativado, basta clicar no evento desejado para apagá-lo. O calendário será atualizado automaticamente, sem o evento removido.
+* **Atualizar ou apagar um evento:**
+Para atualizar um evento, certifique-se de que o calendário está com o *"modo edição"* ativado no canto superior esquerdo. Para apagar um evento, desative o *"modo edição"*. Em ambas as opções, para realizar a ação **ativada** deve-se clicar no evento desejado.
