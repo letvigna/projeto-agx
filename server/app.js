@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongooseLoader = require('./loaders/mongoose');
 const expressLoader = require('./loaders/express');
-const port = process.env.PORT;
+const port = 3010;
 
 async function startServer() {
   await mongooseLoader().then(msg => {
